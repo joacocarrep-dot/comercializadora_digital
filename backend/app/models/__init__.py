@@ -15,6 +15,7 @@ from app.models.inventory import Inventory
 from app.models.bundle_item import BundleItem
 from app.models.digital_asset import DigitalAsset
 from app.models.storefront_product import StorefrontProduct
+from app.models.product_import import ProductImport
 
 __all__ = [
     "Base",
@@ -32,4 +33,5 @@ __all__ = [
     "BundleItem",
     "DigitalAsset",
     "StorefrontProduct",
+    "ProductImport",
 ]

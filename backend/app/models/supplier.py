@@ -102,5 +102,12 @@ class Supplier(Base, UUIDMixin, TimestampMixin):
         lazy="select",
     )
     
+    product_imports: Mapped[list["ProductImport"]] = relationship(
+        "ProductImport",
+        back_populates="supplier",
+        cascade="all, delete-orphan",
+        lazy="select",
+    )
+    
     def __repr__(self) -> str:
         return f"<Supplier(id={self.id}, code={self.code}, name={self.name})>"

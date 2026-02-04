@@ -13,6 +13,7 @@ services:
       - ./backend:/app/backend
     environment:
       # Cargar variables desde archivo .env
+      - PYTHONPATH=/app/backend
       - DATABASE_URL=${DATABASE_URL}
       - SECRET_KEY=${SECRET_KEY}
       - ENV=${ENV}

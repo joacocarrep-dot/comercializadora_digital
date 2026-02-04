@@ -123,18 +123,17 @@ class Inventory(Base, UUIDMixin):
         return self.quantity - self.reserved_qty
     
     @validates("quantity", "reserved_qty")
-    def validate_non_negative(self, key: str, value: int) -> int:
-        """Ensure quantity and reserved_qty are non-negative."""
+    def validate_inventory_fields(self, key: str, value: int) -> int:
+        """Validate quantity and reserved_qty fields."""
+        # Validación 1: Asegurar que ambos sean no negativos
         if value < 0:
             raise ValueError(f"{key} must be non-negative")
-        return value
-    
-    @validates("reserved_qty")
-    def validate_reserved_not_exceed_quantity(self, key: str, value: int) -> int:
-        """Ensure reserved_qty does not exceed quantity."""
-        if value > self.quantity:
-            raise ValueError("reserved_qty cannot exceed quantity")
-        return value
-    
+        
+        # Validación 2: Asegurar que reserved_qty no exceda quantity
+        if key == "reserved_qty":
+            if value > self.quantity:
+                raise ValueError("reserved_qty cannot exceed quantity")
+        
+        return value    
     def __repr__(self) -> str:
         return f"<Inventory(id={self.id}, product_id={self.product_id}, variant_id={self.variant_id}, qty={self.quantity}, reserved={self.reserved_qty})>"

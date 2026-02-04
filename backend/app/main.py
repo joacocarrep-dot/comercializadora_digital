@@ -6,6 +6,12 @@ from app.api.v1.health import router as health_router
 from app.api.v1.admin.auth import router as auth_router
 from app.api.v1.admin.suppliers import router as suppliers_router
 from app.api.v1.admin.storefronts import router as storefronts_router
+from app.api.v1.admin.products import router as products_router
+from app.api.v1.admin.categories import router as categories_router
+from app.api.v1.admin.inventory import router as inventory_router
+from app.api.v1.admin.storefront_products import router as storefront_products_router
+from app.api.v1.public.products import router as public_products_router
+from app.api.v1.public.categories import router as public_categories_router
 from app.core.exceptions import (
     ComercializadoraException,
     comercializadora_exception_handler,
@@ -50,6 +56,14 @@ app.include_router(health_router, prefix="/api/v1", tags=["health"])
 app.include_router(auth_router, prefix="/api/v1/admin", tags=["admin-auth"])
 app.include_router(suppliers_router, prefix="/api/v1/admin/suppliers", tags=["admin-suppliers"])
 app.include_router(storefronts_router, prefix="/api/v1/admin/storefronts", tags=["admin-storefronts"])
+app.include_router(products_router, prefix="/api/v1/admin/products", tags=["admin-products"])
+app.include_router(categories_router, prefix="/api/v1/admin/categories", tags=["admin-categories"])
+app.include_router(inventory_router, prefix="/api/v1/admin/inventory", tags=["admin-inventory"])
+app.include_router(storefront_products_router, prefix="/api/v1/admin/storefront-products", tags=["admin-storefront-products"])
+
+# Include public routers under /api/v1 prefix
+app.include_router(public_products_router, prefix="/api/v1/products", tags=["public-products"])
+app.include_router(public_categories_router, prefix="/api/v1/categories", tags=["public-categories"])
 
 @app.get("/", include_in_schema=False)
 async def root():

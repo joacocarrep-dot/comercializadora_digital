@@ -87,5 +87,12 @@ class User(Base, UUIDMixin, TimestampMixin):
     #     lazy="select",
     # )
     
+    carts: Mapped[list["Cart"]] = relationship(
+        "Cart",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        lazy="select",
+    )
+    
     def __repr__(self) -> str:
         return f"<User(id={self.id}, email={self.email}, role={self.role})>"

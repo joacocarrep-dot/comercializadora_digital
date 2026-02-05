@@ -7,15 +7,15 @@ database sessions, and other common needs.
 from typing import Optional
 from uuid import UUID
 
-from fastapi import Depends, Request
+from fastapi import Depends, Header, Request
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.database import get_db
 from app.core.exceptions import UnauthorizedException
-from app.core.security import get_current_user, get_current_admin_user
+from app.core.security import get_current_user, get_current_admin_user, decode_access_token
 from app.models.storefront import Storefront
 from app.models.user import User
-from app.services import ProductService, CategoryService, InventoryService
+from app.services import ProductService, CategoryService, InventoryService, CartService
 
 
 async def get_current_storefront(request: Request) -> Storefront:
@@ -38,6 +38,43 @@ async def get_current_storefront(request: Request) -> Storefront:
         raise UnauthorizedException("Storefront identification required. Include X-API-Key header.")
     
     return storefront
+
+
+async def get_current_user_optional(
+    authorization: Optional[str] = Header(None),
+    db: AsyncSession = Depends(get_db),
+) -> Optional[User]:
+    """
+    Dependency to get current authenticated user if token exists, otherwise None.
+    
+    Args:
+        authorization: Authorization header with Bearer token (optional)
+        db: Database session
+        
+    Returns:
+        User instance if authenticated, None otherwise
+    """
+    if not authorization or not authorization.startswith("Bearer "):
+        return None
+    
+    try:
+        token = authorization.replace("Bearer ", "")
+        payload = decode_access_token(token)
+        user_id = payload.get("sub")
+        if not user_id:
+            return None
+        
+        from app.repositories.base import BaseRepository
+        user_repo = BaseRepository(User, db)
+        user = await user_repo.get_by_id(UUID(user_id))
+        
+        if not user or not user.is_active:
+            return None
+        
+        return user
+    except Exception:
+        # If any error occurs (invalid token, expired, etc.), return None
+        return None
 
 
 async def get_product_service(
@@ -85,13 +122,30 @@ async def get_inventory_service(
     return InventoryService(db)
 
 
+async def get_cart_service(
+    db: AsyncSession = Depends(get_db),
+) -> CartService:
+    """
+    Dependency to get CartService instance.
+    
+    Args:
+        db: Database session
+        
+    Returns:
+        CartService instance
+    """
+    return CartService(db)
+
+
 # Re-export common dependencies from security module
 __all__ = [
     "get_current_user",
+    "get_current_user_optional",
     "get_current_admin_user",
     "get_current_storefront",
     "get_product_service",
     "get_category_service",
     "get_inventory_service",
+    "get_cart_service",
     "get_db",
 ]

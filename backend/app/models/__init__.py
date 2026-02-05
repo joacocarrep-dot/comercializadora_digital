@@ -16,6 +16,8 @@ from app.models.bundle_item import BundleItem
 from app.models.digital_asset import DigitalAsset
 from app.models.storefront_product import StorefrontProduct
 from app.models.product_import import ProductImport
+from app.models.cart import Cart
+from app.models.cart_item import CartItem
 
 __all__ = [
     "Base",
@@ -34,4 +36,6 @@ __all__ = [
     "DigitalAsset",
     "StorefrontProduct",
     "ProductImport",
+    "Cart",
+    "CartItem",
 ]

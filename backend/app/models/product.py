@@ -248,5 +248,12 @@ class Product(Base, UUIDMixin, TimestampMixin):
         lazy="select",
     )
     
+    order_items: Mapped[list["OrderItem"]] = relationship(
+        "OrderItem",
+        back_populates="product",
+        cascade="all, delete-orphan",
+        lazy="select",
+    )
+    
     def __repr__(self) -> str:
         return f"<Product(id={self.id}, sku={self.sku}, name={self.name}, type={self.product_type})>"

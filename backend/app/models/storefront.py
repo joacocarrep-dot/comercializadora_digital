@@ -106,5 +106,12 @@ class Storefront(Base, UUIDMixin, TimestampMixin):
         lazy="select",
     )
     
+    orders: Mapped[list["Order"]] = relationship(
+        "Order",
+        back_populates="storefront",
+        cascade="all, delete-orphan",
+        lazy="select",
+    )
+    
     def __repr__(self) -> str:
         return f"<Storefront(id={self.id}, code={self.code}, name={self.name})>"

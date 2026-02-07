@@ -13,6 +13,9 @@ from app.api.v1.admin.storefront_products import router as storefront_products_r
 from app.api.v1.public.products import router as public_products_router
 from app.api.v1.public.categories import router as public_categories_router
 from app.api.v1.public.cart import router as public_cart_router
+from app.api.v1.public.auth import router as public_auth_router
+from app.api.v1.public.checkout import router as public_checkout_router
+from app.api.v1.public.orders import router as public_orders_router
 from app.core.exceptions import (
     ComercializadoraException,
     comercializadora_exception_handler,
@@ -66,6 +69,9 @@ app.include_router(storefront_products_router, prefix="/api/v1/admin/storefront-
 app.include_router(public_products_router, prefix="/api/v1/products", tags=["public-products"])
 app.include_router(public_categories_router, prefix="/api/v1/categories", tags=["public-categories"])
 app.include_router(public_cart_router, prefix="/api/v1/cart", tags=["public-cart"])
+app.include_router(public_auth_router, prefix="/api/v1/auth", tags=["public-auth"])
+app.include_router(public_checkout_router, prefix="/api/v1/checkout", tags=["public-checkout"])
+app.include_router(public_orders_router, prefix="/api/v1/orders", tags=["public-orders"])
 
 @app.get("/", include_in_schema=False)
 async def root():

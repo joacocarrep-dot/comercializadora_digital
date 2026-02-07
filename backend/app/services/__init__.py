@@ -8,6 +8,12 @@ from app.services.category_service import CategoryService
 from app.services.inventory_service import InventoryService
 from app.services.import_service import ImportService
 from app.services.cart_service import CartService
+from app.services.otp_service import OTPService
+from app.services.user_service import UserService
+from app.services.auth_service import AuthService
+from app.services.checkout_service import CheckoutService
+from app.services.order_service import OrderService
+from app.services.stock_reservation_service import StockReservationService
 
 __all__ = [
     "ProductService",
@@ -15,4 +21,10 @@ __all__ = [
     "InventoryService",
     "ImportService",
     "CartService",
+    "OTPService",
+    "UserService",
+    "AuthService",
+    "CheckoutService",
+    "OrderService",
+    "StockReservationService",
 ]

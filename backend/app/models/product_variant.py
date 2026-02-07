@@ -107,5 +107,12 @@ class ProductVariant(Base, UUIDMixin, TimestampMixin):
         lazy="select",
     )
     
+    order_items: Mapped[list["OrderItem"]] = relationship(
+        "OrderItem",
+        back_populates="variant",
+        cascade="all, delete-orphan",
+        lazy="select",
+    )
+    
     def __repr__(self) -> str:
         return f"<ProductVariant(id={self.id}, sku={self.sku}, name={self.name}, product_id={self.product_id})>"

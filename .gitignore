@@ -80,3 +80,5 @@ htmlcov/
 # Testing and Documentation
 test_execution/
 docs/
+postgres/
+

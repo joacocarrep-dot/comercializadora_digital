@@ -15,7 +15,18 @@ from app.core.exceptions import UnauthorizedException
 from app.core.security import get_current_user, get_current_admin_user, decode_access_token
 from app.models.storefront import Storefront
 from app.models.user import User
-from app.services import ProductService, CategoryService, InventoryService, CartService
+from app.services import (
+    ProductService, 
+    CategoryService, 
+    InventoryService, 
+    CartService,
+    AuthService,
+    UserService,
+    OTPService,
+    CheckoutService,
+    OrderService,
+    StockReservationService,
+)
 
 
 async def get_current_storefront(request: Request) -> Storefront:
@@ -137,6 +148,96 @@ async def get_cart_service(
     return CartService(db)
 
 
+async def get_auth_service(
+    db: AsyncSession = Depends(get_db),
+) -> AuthService:
+    """
+    Dependency to get AuthService instance.
+    
+    Args:
+        db: Database session
+        
+    Returns:
+        AuthService instance
+    """
+    return AuthService(db)
+
+
+async def get_user_service(
+    db: AsyncSession = Depends(get_db),
+) -> UserService:
+    """
+    Dependency to get UserService instance.
+    
+    Args:
+        db: Database session
+        
+    Returns:
+        UserService instance
+    """
+    return UserService(db)
+
+
+async def get_otp_service(
+    db: AsyncSession = Depends(get_db),
+) -> OTPService:
+    """
+    Dependency to get OTPService instance.
+    
+    Args:
+        db: Database session
+        
+    Returns:
+        OTPService instance
+    """
+    return OTPService(db)
+
+
+async def get_checkout_service(
+    db: AsyncSession = Depends(get_db),
+) -> CheckoutService:
+    """
+    Dependency to get CheckoutService instance.
+    
+    Args:
+        db: Database session
+        
+    Returns:
+        CheckoutService instance
+    """
+    return CheckoutService(db)
+
+
+async def get_order_service(
+    db: AsyncSession = Depends(get_db),
+) -> OrderService:
+    """
+    Dependency to get OrderService instance.
+    
+    Args:
+        db: Database session
+        
+    Returns:
+        OrderService instance
+    """
+    return OrderService(db)
+
+
+async def get_stock_reservation_service(
+    db: AsyncSession = Depends(get_db),
+) -> StockReservationService:
+    """
+    Dependency to get StockReservationService instance.
+    
+    Args:
+        db: Database session
+        
+    Returns:
+        StockReservationService instance
+    """
+    return StockReservationService(db)
+
+
 # Re-export common dependencies from security module
 __all__ = [
     "get_current_user",
@@ -147,5 +248,11 @@ __all__ = [
     "get_category_service",
     "get_inventory_service",
     "get_cart_service",
+    "get_auth_service",
+    "get_user_service",
+    "get_otp_service",
+    "get_checkout_service",
+    "get_order_service",
+    "get_stock_reservation_service",
     "get_db",
 ]

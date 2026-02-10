@@ -14,6 +14,7 @@ from app.services.auth_service import AuthService
 from app.services.checkout_service import CheckoutService
 from app.services.order_service import OrderService
 from app.services.stock_reservation_service import StockReservationService
+from app.services.payment import PaymentService, MercadoPagoService, PaymentServiceFactory
 
 __all__ = [
     "ProductService",
@@ -27,4 +28,7 @@ __all__ = [
     "CheckoutService",
     "OrderService",
     "StockReservationService",
+    "PaymentService",
+    "MercadoPagoService",
+    "PaymentServiceFactory",
 ]

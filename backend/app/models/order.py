@@ -10,7 +10,7 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Optional
 
-from sqlalchemy import CheckConstraint, DateTime, ForeignKey, Numeric, String, Text
+from sqlalchemy import CheckConstraint, DateTime, ForeignKey, Numeric, String, Text, Column, Float, Enum
 from sqlalchemy.dialects.postgresql import JSONB, UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -83,7 +83,7 @@ class Order(Base, UUIDMixin, TimestampMixin):
 
     # Status
     status: Mapped[OrderStatus] = mapped_column(
-        enum.Enum(OrderStatus, name="order_status", native_enum=False),
+        Enum(OrderStatus, name="order_status", native_enum=False),
         nullable=False,
         default=OrderStatus.CREATED,
         index=True,
@@ -201,6 +201,13 @@ class Order(Base, UUIDMixin, TimestampMixin):
 
     stock_reservations: Mapped[list["StockReservation"]] = relationship(
         "StockReservation",
+        back_populates="order",
+        cascade="all, delete-orphan",
+        lazy="select",
+    )
+
+    payments: Mapped[list["Payment"]] = relationship(
+        "Payment",
         back_populates="order",
         cascade="all, delete-orphan",
         lazy="select",

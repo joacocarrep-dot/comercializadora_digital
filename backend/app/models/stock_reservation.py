@@ -9,7 +9,7 @@ import uuid
 from datetime import datetime
 from typing import Optional
 
-from sqlalchemy import CheckConstraint, ForeignKey, Integer
+from sqlalchemy import CheckConstraint, ForeignKey, Integer, Enum
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.sql import func
@@ -74,7 +74,7 @@ class StockReservation(Base, UUIDMixin, TimestampMixin):
     )
 
     status: Mapped[StockReservationStatus] = mapped_column(
-        enum.Enum(StockReservationStatus, name="stock_reservation_status", native_enum=False),
+        Enum(StockReservationStatus, name="stock_reservation_status", native_enum=False),
         nullable=False,
         default=StockReservationStatus.ACTIVE,
         index=True,

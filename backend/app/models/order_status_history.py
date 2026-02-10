@@ -8,7 +8,7 @@ import enum
 import uuid
 from typing import Optional
 
-from sqlalchemy import ForeignKey, String, Text
+from sqlalchemy import ForeignKey, String, Text, Column, Float, Enum
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -42,12 +42,12 @@ class OrderStatusHistory(Base, UUIDMixin, TimestampMixin):
 
     # Status fields
     from_status: Mapped[Optional[OrderStatus]] = mapped_column(
-        enum.Enum(OrderStatus, name="order_status", native_enum=False),
+        Enum(OrderStatus, name="order_status", native_enum=False),
         nullable=True,
     )
 
     to_status: Mapped[OrderStatus] = mapped_column(
-        enum.Enum(OrderStatus, name="order_status", native_enum=False),
+        Enum(OrderStatus, name="order_status", native_enum=False),
         nullable=False,
         index=True,
     )

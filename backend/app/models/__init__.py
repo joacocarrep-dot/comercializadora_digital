@@ -24,6 +24,8 @@ from app.models.order import Order, OrderStatus
 from app.models.order_item import OrderItem
 from app.models.order_status_history import OrderStatusHistory
 from app.models.stock_reservation import StockReservation, StockReservationStatus
+from app.models.payment import Payment, PaymentStatus, PaymentProvider
+from app.models.payment_event import PaymentEvent, PaymentEventType
 
 __all__ = [
     "Base",
@@ -55,4 +57,9 @@ __all__ = [
     "OrderStatusHistory",
     "StockReservation",
     "StockReservationStatus",
+    "Payment",
+    "PaymentStatus",
+    "PaymentProvider",
+    "PaymentEvent",
+    "PaymentEventType",
 ]
